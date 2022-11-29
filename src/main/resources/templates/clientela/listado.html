@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+@SpringBootApplication
+<HTML xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Techshop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    </head>
+    <body>
+       
+        
+        <h2>Informacion de los clientelas</h2>
+        <a th:href="@{/clientela/nuevo}">[[#{clientela.nuevo}]]</a>
+        <div th:if="${clientela !=null and !clientela.empty}">
+        
+        <table border ="1">
+            <thead>
+            <tr>
+              <th>[[#{clientela.nombre}]]</th>
+              <th>[[#{clientela.apellidos}]]</th>
+              <th> [[#{clientela.email}]]</th>
+              <th> [[#{clientela.telefono}]]</th>
+              <th> [[#{clientela.edad}]]</th>
+              <th> [[#{clientela.provincia}]]</th>
+              <th> [[#{clientela.canton}]]</th>
+              <th> [[#{clientela.distrito}]]</th>
+              <th> [[#{clientela.dir_exacta}]]</th>
+              <th> [[#{accion.eliminar}]]</th>
+              <th> [[#{accion.modificar}]]</th>
+                  </tr>
+                  </thead> 
+                  <tbody>
+                  <tr th:each="clientela: ${clientela}"> 
+                      <td>[[${clientela.nombre}]]</td>
+                      <td>[[${clientela.apellidos}]]</td>
+                      <td>[[${clientela.email}]]</td>
+                      <td>[[${clientela.telefono}]]</td>
+                      <td>[[${clientela.edad}]]</td>
+                      <td>[[${clientela.provincia}]]</td>
+                      <td>[[${clientela.canton}]]</td>
+                      <td>[[${clientela.distrito}]]</td>
+                      <td>[[${clientela.dir_exacta}]]</td>
+                      <td style"text-align: right"> </td>
+                      <td><a th:href="@{/clientela/modificar/} +${clientela.idCliente}">[[#{accion.modificar}]]</a></td>
+                      <td><a th:href="@{/clientela/eliminar} +${clientela.idCliente}">[[#{accion.eliminar}]]</a></td>
+                       <td><a th:href="@{/clientela/buscar} +${clientela.apellidos}">Buscar</a></td>
+                  </tr>
+                  </body>
+                
+        </table>
+    </div>
+           </div>
+          <div th:if="${clientela==null or clientela.empty}">
+          <h2>Aqui no hay nada para mostrar</h2>
+        
+        </div> 
+     
+    </body>
+</html>

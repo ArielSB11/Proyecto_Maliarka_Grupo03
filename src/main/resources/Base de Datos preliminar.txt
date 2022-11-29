@@ -1,0 +1,144 @@
+drop schema trabajoFinal ;
+drop user ivergm;
+
+CREATE SCHEMA trabajoFinal ;
+
+create user 'ivergm'@'%' identified by '12345';
+
+grant all privileges on trabajoFinal.* to 'ivergm'@'%';
+flush privileges;
+
+create table trabajoFinal.prestamo (
+  id_credito INT NOT NULL AUTO_INCREMENT,
+  limite double,
+  PRIMARY KEY (id_credito)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+
+CREATE TABLE trabajoFinal.clientela (
+  id_cliente INT NOT NULL AUTO_INCREMENT,
+  id_credito INT NOT NULL,
+  nombre VARCHAR(20) NOT NULL,
+  apellidos VARCHAR(30) NOT NULL,
+  email VARCHAR(50) NULL,
+  telefono int Not NULL,
+  edad INT NOT NULL,
+  provincia VARCHAR(20) NOT NULL,
+  canton VARCHAR(20) NOT NULL,
+  distrito VARCHAR(20) NOT NULL,
+   dir_exacta VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id_cliente`),
+  foreign key fk_cliente_prestamo(id_credito) references credito(id_credito)  )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+
+create table trabajoFinal.categoria (
+  id_categoria INT NOT NULL AUTO_INCREMENT,
+  descripcion VARCHAR(30) NOT NULL,  
+  composicion VARCHAR(50) NOT NULL, 
+  recomendado VARCHAR(30) NOT NULL, 
+  activo bool,
+  PRIMARY KEY (id_categoria))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+create table trabajoFinal.stock(
+  id_articulo INT NOT NULL AUTO_INCREMENT,
+  id_categoria INT NOT NULL,
+  descripcion VARCHAR(30) NOT NULL,  
+  Marca VARCHAR(30) NOT NULL, 
+  genero VARCHAR(30) NOT NULL, 
+  detalle VARCHAR(1600) NOT NULL, 
+  precio double,
+  existencias int,
+  activo bool,
+  PRIMARY KEY (id_articulo),
+  foreign key fk_articulo_caregoria (id_categoria) references categoria(id_categoria)  
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+
+create table trabajoFinal.facturacion (
+  id_factura INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  fecha date,  
+  total double,
+  estado int,
+  PRIMARY KEY (id_factura),
+  foreign key fk_factura_cliente (id_cliente) references cliente(id_cliente)  
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+
+create table trabajoFinal.Usuarios (
+  id_usuario varchar (25) NOT null,
+  email varchar (30) NOT null,
+  PRIMARY KEY (id_usuario)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_eo_0900_ai_ci;
+INSERT INTO trabajoFinal.prestamo(id_credito,limite) values
+(1,500000),
+(2,1000000),
+(3,1500000),
+(4,4500000),
+(5,10000),
+(6,999999999);
+
+
+INSERT INTO trabajoFinal.clientela (id_cliente, id_credito, nombre, apellidos, email, telefono, edad, provincia, canton, distrito, dir_exacta) VALUES 
+(1, 1,'Andres', 'Castro Mora',    'acastro@gmail.com',    '4556-8978', 45, 'Cartago', 'La Union', 'San Juan','Residencial Omega'),
+(2, 2,'Patricia',  'Contreras Mora', 'paticontreras@gmail.com', '5456-8789',18,'Cartago', 'La Union', 'Tres Rios','Urbanizacion la Vaca'),
+(3, 3,'Luis', 'Mena Loria',     'lmena@gmail.com',      '7898-8936', 65, 'Puntarenas', 'Garabito', 'Jaco','a la par de Jaco walk'),
+(4, 4,'pepe', 'moran mesen',    'pepemm@gmail.com',    '1234-5678', 35, 'Cartago', 'La Union', 'San Juan','Residencial Loma Verde'),
+(5, 5,'carlos',  'Guzman Hernandez', 'guzmanH@gmail.com', '9876-8789',28,'San Jose', 'Montes de Oca', 'San pedro','Calle de la amargura'),
+(6, 6,'Maria', 'Mena Loria',     'maloria@gmail.com',      '4444-2585', 36, 'San Jose', 'Hospital', 'Barrio Amon','contiguo al club de cine');
+
+
+INSERT INTO trabajoFinal.categoria (id_categoria,descripcion,composicion, recomendado, activo) VALUES 
+('1','Cremas',' productos a base de extractos naturales', 'Linea recomendada para Mujeres' ,  true), 
+('2','Jabones',   'productos a base de extractos naturales, sin potasio', 'Jabones para todo tipo de piel',    true),
+('3','Cosmeticos', 'productos libres de crueldad animal ', 'Maquillaje hipoalergenico para mujeres de toda edad' ,true),
+('4','Cuidado Personal', 'productos de confeccion artesanal con productos naturales', 'Disponibles tanto para hombre como mujer', true),
+('5','Cuidado para hombre',  ' productos a base de azufre, arcilla volcanica y carbon activado', 'Hombres a partir de los 15 años',  true);
+
+INSERT INTO trabajoFinal.stock(id_articulo,id_categoria,descripcion,detalle,precio,existencias,activo) VALUES
+(1,1,'crema corporal','Lorem ipsum dolor sit amet consectetur adipiscing elit iaculis, ullamcorper in fringilla eu cras tempor mi. Luctus blandit sapien mauris vestibulum consequat mattis taciti aliquam ullamcorper, sagittis suscipit etiam urna convallis interdum tempor bibendum, ultricies habitant viverra natoque dictum posuere senectus volutpat. Cum ad vehicula condimentum nunc lacus nec tellus eleifend, a platea curae nullam sollicitudin nibh class cursus taciti, posuere purus inceptos facilisis cubilia suspendisse ut.', 'maliarka artesanias','Femenimo',23000,5,true),
+(2,1,'Crema de manos','Quisque in ridiculus scelerisque platea accumsan libero sem vel, mi cras metus cubilia tempor conubia fermentum volutpat gravida, maecenas semper sodales potenti turpis enim dapibus. Volutpat accumsan vivamus dignissim blandit vel eget posuere donec id, tempus sagittis aliquam erat luctus ornare aptent cubilia aliquet proin, ultrices ante pretium gravida sed vitae vestibulum aenean. Eleifend nascetur conubia ornare purus a eget at metus est risus natoque, elementum dis vulputate sociosqu integer ut ad nisl dui molestie.','maliarka artesanias','Femenimo',27000,2,true),
+(3,1,'crema para pies','Natoque lacinia accumsan hendrerit pretium sociis imperdiet a, nullam ornare erat suspendisse praesent porta, euismod in augue tempus aliquet habitasse. Non accumsan nostra cras vestibulum augue facilisi auctor scelerisque suscipit, iaculis maecenas varius sollicitudin lacus netus et ultricies tincidunt, tortor curabitur tempor diam aliquet dis platea integer. Potenti aliquet erat neque vitae et sociis pretium, viverra euismod vivamus scelerisque metus est feugiat curae, parturient auctor aliquam pharetra nam congue.','maliarka artesanias','Femenimo',24000,5,true),
+(4,1,'Crema para Contorno de ojos','Elementum sagittis dictumst leo curabitur porta, pellentesque interdum mauris class augue, penatibus vulputate dignissim lobortis, risus euismod ullamcorper ultrices. Hac suspendisse id odio tempus eleifend a malesuada, conubia gravida turpis auctor eget quam eu, fusce taciti lobortis sem netus cum. Etiam lacinia non nibh taciti vulputate ut nullam, curae mollis penatibus facilisi maecenas urna aptent, metus fusce felis magna ullamcorper aenean.','maliarka artesanias','Femenimo',27600,2,true),
+(5,2,'Jabon de Azufre','Aenean senectus diam vitae curae habitant risus a et netus ante, sociis metus quisque euismod aptent etiam platea fringilla class vestibulum, dis habitasse facilisis fusce varius nam arcu blandit congue. Rutrum placerat congue etiam senectus tincidunt fringilla consequat dignissim sollicitudin, vulputate curae accumsan tempor nunc vel eros mus. Mauris donec urna ante proin duis nullam purus maecenas gravida curae iaculis, tempor quam massa cursus mollis per sodales eros diam leo.','maliarka artesanias','Neutro',45000,5,true),
+(6,2,'Jabon de manos','Auctor id morbi tempor litora fusce potenti, ornare integer imperdiet turpis accumsan enim, sagittis suscipit purus lacus nunc. Posuere tellus elementum imperdiet sollicitudin consequat torquent urna risus, pulvinar ac per quis egestas tristique ultricies, bibendum dignissim congue eu litora malesuada montes. Nisl arcu mi purus auctor nulla sodales torquent facilisis imperdiet, dignissim bibendum justo dictum in congue integer scelerisque sagittis, accumsan laoreet nam augue felis massa varius nostra.','maliarka artesanias','Neutro',57000,2,true),
+(7,2,'Jabon para zona intima femenina','Cum placerat etiam lobortis curabitur fames class facilisi hac duis, congue vulputate mus feugiat nostra imperdiet neque vehicula. Mi mollis ridiculus montes aenean sagittis vitae metus, netus massa ligula sociis magnis porttitor, torquent nisl eleifend lobortis dignissim at. Eget nostra tellus sagittis condimentum nec felis curabitur dis ad purus, montes dapibus ullamcorper cras vivamus facilisis nascetur lectus porttitor, dictum vulputate luctus pretium ligula eu posuere rhoncus molestie. Nibh platea odio at mollis est, turpis enim felis pharetra tellus ','maliarka artesanias','Neutro',25000,5,true),
+(8,2,'Jabon exfoliante' ,'Purus dictumst scelerisque mollis platea malesuada per vehicula lectus blandit sed, vulputate morbi imperdiet duis dapibus congue class accumsan nullam, ligula eleifend tincidunt urna mi condimentum dis posuere tellus. Sem rutrum erat mauris justo nunc odio condimentum in dictumst, cum porttitor lectus dignissim velit nulla gravida lobortis tempus vehicula, pharetra urna ullamcorper metus semper volutpat proin senectus. Aliquam donec cras ante hendrerit enim vitae nostra consequat scelerisque a habitant dictum congue ornare potenti, sodales velit litora s  pretium luctus.','maliarka artesanias','Neutro',27600,2,true),
+(9,3,'Delineador','Morbi egestas sociis magnis curabitur suscipit nostra blandit magna torquent convallis, enim parturient feugiat fringilla litora aliquam turpis nisl at velit, fames aenean dui viverra arcu habitasse nascetur platea ac. Lectus nibh imperdiet nascetur proin potenti nisl mattis fringilla urna consequat diam, pellentesque vulputate magnis ridiculus dignissim nec venenatis primis ut bibendum, penatibus himenaeos mus sapien magna etiam velit justo vivamus metus. Tellus volutpat hendrerit vehicula lacinia aliquam euismod lectus erat posuere, arcu nec morbi dui placerat quisque semper tempor vulputate est, turpis ac dis nostra congue odio per mattis.','Femenino',15780,5,true),
+(10,3,'Rimel','Rhoncus ante magna cursus consequat proin senectus ridiculus, varius maecenas tellus justo facilisi ligula eros dapibus, taciti sollicitudin vulputate vivamus lacus fusce. Lacus aptent facilisi urna volutpat vestibulum nunc sociis viverra habitasse egestas, vivamus blandit ultricies neque netus pulvinar elementum ac per iaculis, donec euismod porttitor velit diam ullamcorper congue phasellus nam. Feugiat senectus parturient tristique enim ac integer torquent rutrum imperdiet, nec dapibus nam vestibulum sodales phasellus dis egestas urna, donec interdum  .','maliarka artesanias','Femenino',15000,2,true),
+(11,3,'Base para maquillaje','Primis quis sollicitudin ac himenaeos dui metus ridiculus, viverra vitae erat litora mauris eget, ut nisl platea feugiat inceptos cum. Diam vitae sem nulla commodo hendrerit duis dictum, tristique senectus maecenas eu augue dignissim lectus, eros cursus felis ornare nisl primis. Tempor facilisi ad scelerisque himenaeos nec ultrices interdum praesent, tincidunt mauris morbi nostra et parturient vivamus odio viverra, eget eu fermentum conubia vestibulum sagittis feugiat. Nulla mus dis rutrum feugiat imperdiet sociosqu non augue tempor sem, arcu natoque ridiculus odio dapibus quis ligula sagittis dui.','maliarka artesanias','Femenimo',25400,5,true),
+(12,3,'Paleta de sombras mixta','Risus tristique donec faucibus cursus dictumst vestibulum maecenas, ac scelerisque luctus purus senectus quisque pellentesque, dictum commodo accumsan himenaeos placerat suscipit. Pharetra erat cubilia sapien feugiat aenean molestie vulputate ac, lectus phasellus rutrum pretium interdum a natoque varius parturient, pulvinar condimentum praesent mollis ante nulla inceptos. Curabitur vestibulum malesuada justo non nostra nam donec dictum platea, commodo dictumst natoque bibendum leo nibh cras habitant primis, quisque augue eget ultrices suspendisse eros rutrum conubia.','maliarka artesanias','Femenimo',45000,3,true),
+(13,4,'Esponja Konjac','Nam ad hac curae mollis dui scelerisque convallis eros, dignissim faucibus velit nostra dapibus cursus vehicula habitasse facilisi, mi conubia pellentesque quisque cras justo inceptos. Integer varius consequat volutpat at dui scelerisque dapibus magnis platea quis, purus mi nibh tempor inceptos litora hac himenaeos ultrices. Convallis orci dictumst tincidunt phasellus facilisis ullamcorper montes vestibulum, leo cubilia tempus fringilla sodales per lacus viverra pretium, potenti id sociis fames curae nam etiam.','maliarka artesanias','Neutro',285000,0,true),
+(14,4,'Esponja para Baño','Luctus lacus montes vulputate libero purus est litora, risus magnis quisque ac urna magna sollicitudin, suspendisse mauris massa euismod quam placerat. Facilisis congue id posuere tortor et porttitor curabitur pulvinar sapien, cubilia tempus pharetra facilisi fringilla dapibus lectus non hendrerit, pellentesque dictumst vulputate natoque molestie aptent nascetur ante. Laoreet etiam taciti integer at metus facilisis, pellentesque tortor leo enim felis turpis bibendum, neque curabitur himenaeos hac torquent.','maliarka artesanias','Masculino',154000,0,true),
+(15,4,'Sales para Baño','Nullam porttitor vivamus phasellus tempus in morbi aliquet platea duis, nulla tristique inceptos pellentesque pulvinar congue sagittis euismod vitae lacinia, scelerisque mus orci sociosqu libero proin sed felis. Pretium tincidunt ultrices eu vel nam massa morbi diam sem, neque aliquet vehicula penatibus odio phasellus curabitur. Conubia natoque quis tellus scelerisque sociis facilisi nisi suspendisse, id interdum ornare vivamus proin himenaeos class sed in, suscipit torquent est aliquam orci nunc etiam.    e habitasse.','maliarka artesanias','Masculino',330000,0,true),
+(16,4,'Desodorante neutro','Litora metus senectus mattis egestas mus fames tempus suscipit, inceptos luctus hendrerit congue quis sem. Potenti quis conubia fermentum non dictum nibh, viverra neque sed pretium eros aptent, metus hac at imperdiet est. Accumsan donec sociosqu etiam venenatis felis aenean suspendisse facilisi dignissim conubia non, molestie est ultrices neque id diam pellentesque quis quisque in odio, per nulla aptent arcu vehicula lobortis aliquet tempor cum platea.','maliarka artesanias','Femenimo',273000,0,true),
+(17,5,'Sales para Baño','Nullam porttitor vivamus phasellus tempus in morbi aliquet platea duis, nulla tristique inceptos pellentesque pulvinar congue sagittis euismod vitae lacinia, scelerisque mus orci sociosqu libero proin sed felis. Pretium tincidunt ultrices eu vel nam massa morbi diam sem, neque aliquet vehicula penatibus odio phasellus curabitur. Conubia natoque quis tellus scelerisque sociis facilisi nisi suspendisse, id interdum ornare vivamus proin himenaeos class sed in, suscipit torquent est aliquam orci nunc etiam.  euismod nam porta rhoncus non ante habitasse.','maliarka artesanias','Femenimo',330000,0,true),
+(18,5,'Desodorante neutro','Litora metus senectus mattis egestas mus fames tempus suscipit, inceptos luctus hendrerit congue quis sem. Potenti quis conubia fermentum non dictum nibh, viverra neque sed pretium eros aptent, metus hac at imperdiet est. Accumsan donec sociosqu etiam venenatis felis aenean suspendisse facilisi dignissim conubia non, molestie est ultrices neque id diam pellentesque quis quisque in odio, per nulla aptent arcu vehicula lobortis aliquet tempor cum platea.','maliarka artesanias','Femenimo',273000,0,true);
+
+ 
+INSERT INTO trabajoFinal.facturacion (id_factura,id_cliente,fecha,total,estado) VALUES
+(1,1,'2022-01-05',211560,2),
+(2,2,'2022-01-07',554340,2),
+(3,3,'2022-01-07',871000,2),
+(4,1,'2022-01-15',244140,1),
+(5,2,'2022-01-17',414800,1),
+(6,3,'2022-01-21',420000,1);
+
+INSERT INTO trabajoFinal.usuario (id_usuario,email) values
+('DonalTrump', 'Donal1234@gmail.com','abc123'),
+('FortnitePro', 'Andrescruz1@live.com','00000000'),
+('PuravidaCR', 'Andrea_mora@gmail.com','Elefantitos123');
+)  

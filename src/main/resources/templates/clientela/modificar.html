@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+@SpringBootApplication
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Tienda de Cosmeticos grupo 03</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+    </head>
+    <body>
+        
+        <h2>Datos de los clientes</h2>
+      
+        <a th:href="@{/clientela/listado}"></a>
+          <hr/>
+            <form th:action="@{/clientela/guardar}"
+                method="post"
+                th:object="${clientela}">
+                
+                <input type="hidden" name="idCliente" th:field="*{idCliente}"> 
+                    <input type="hidden" name="idCredito" th:field="*{idCredito}"> 
+               
+                        <fieldset> 
+                <label for="nombre">[[#{clientela.nombre}]]</label> 
+                <input type="text " name="nombre" th:field="*{nombre}"/>
+                </fieldset>
+                
+                <fieldset>
+                <label for="apellidos">[[#{clientela.apellidos}]]</label> 
+                <input type="text " name="apellidos" th:field="*{apellidos}"/>
+                 </fieldset>
+                
+                <fieldset>
+                <label for="email">[[#{clientela.email}]]</label> 
+                <input type="email " name="correo" th:field="*{correo}"/>
+                 </fieldset>
+                
+                <fieldset>
+                <label for="telefono">[[#{clientela.telefono}]]</label> 
+                <input type="tel " name="telefono" th:field="*{telefono}"/>
+                 </fieldset>
+                
+                <fieldset>
+                 <label for="edad">[[#{clientela.edad}]]</label> 
+                <input type="edad " name="edad" th:field="*{edad}"/>
+                 </fieldset>
+                        
+                <fieldset>
+                 <label for="provincia">[[#{clientela.provincia}]]</label> 
+                <input type="text " name="provincia" th:field="*{provincia}"/>
+                 </fieldset>
+                
+                <fieldset>
+                 <label for="provincia">[[#{clientela.provincia}]]</label> 
+                <input type="text " name="provincia" th:field="*{provincia}"/>
+                 </fieldset>
+                
+                <fieldset>
+                <label for="canton">[[#{clientela.canton}]]</label> 
+                <input type="text " name="canton" th:field="*{canton}"/>
+                 </fieldset>
+                
+                <fieldset>
+                <label for="distrito">[[#{clientela.distrito}]]</label> 
+                <input type="text " name="distrito" th:field="*{distrito}"/>
+                 </fieldset>
+                
+                <fieldset>
+                <label for="Direccion exacta">[[#{clientela.dir_exacta}]]</label> 
+                <input type="text " name="dir_exacta" th:field="*{dir_exacta}"/>
+                 </fieldset>
+           
+                <button type ="submit" name="guardar" value="Guardar"/>
+                
+            </form>
+        </div>
+        <footer> DERECHOS RESERVADOS <footer/>
+    </body>
+</html>
